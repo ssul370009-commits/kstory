@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign-in Complete</title>
+<meta name="description" content="OAuth redirect page for K-Story Publisher.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<header><nav><a href="index.html">Home</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></nav></header>
+<h1 id="h">Sign-in complete</h1>
+<p id="msg">Returning to the K-Story Publisher app on this computer…</p>
+<p class="muted">This page only passes the sign-in result to the app running on the owner's own computer
+(localhost). Nothing is stored or sent anywhere else.</p>
+<script>
+  // TikTok 로그인 결과(code, state)를 노트북에서 실행 중인 업로드 스크립트(localhost:8765)로 넘긴다.
+  (function () {
+    var q = window.location.search;
+    var p = new URLSearchParams(q);
+    if (p.get("error")) {
+      document.getElementById("h").textContent = "Sign-in was cancelled";
+      document.getElementById("msg").textContent = "Error: " + p.get("error") + ". You can close this tab.";
+      return;
+    }
+    if (p.get("code")) {
+      window.location.replace("http://localhost:8765/callback" + q);
+    } else {
+      document.getElementById("msg").textContent = "Nothing to do here. You can close this tab.";
+    }
+  })();
+</script>
+</main>
+</body>
+</html>
